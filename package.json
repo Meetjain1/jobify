@@ -1,8 +1,8 @@
 {
   "name": "jobify",
   "version": "1.0.0",
-  "description": "#### Track Your Job Search",
-  "main": "index.js",
+  "description": "Track Your Job Search (Backend)",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "install-dependencies": "npm run install-client && npm install",
@@ -11,15 +11,11 @@
     "build-client": "cd client && npm run build",
     "server": "nodemon server --ignore client",
     "client": "npm start --prefix client",
-    "start": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\""
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^6.4.0",
-    "nodemon": "^2.0.15"
-  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
@@ -36,6 +32,8 @@
     "mongoose": "^6.0.13",
     "morgan": "^1.10.0",
     "validator": "^13.7.0",
-    "xss-clean": "^0.1.1"
+    "xss-clean": "^0.1.1",
+    "concurrently": "^6.4.0",
+    "nodemon": "^2.0.15"
   }
 }
