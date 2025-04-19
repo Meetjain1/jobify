@@ -10,6 +10,10 @@ import xss from 'xss-clean';
 import mongoSanitize from 'express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
 
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
 // db and authenticateUser
 import connectDB from './db/connect.js';
 
@@ -26,14 +30,26 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 app.use(express.json());
 app.use(helmet());
 app.use(xss());
 app.use(mongoSanitize());
 app.use(cookieParser());
 
+// API routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter);
+
+// -------- Serve frontend build in production --------
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname, './client/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
+  });
+}
+// -----------------------------------------------------
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
